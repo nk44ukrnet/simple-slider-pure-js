@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>!!!!!!!!</title>
+    <style>
+        .holder {
+            width: 600px;
+            margin: 0 auto;
+            /*border:1px solid black;*/
+            height: 100px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+
+        }
+        .inner_holder {
+            display: block;
+            /*border:2px dotted pink;*/
+            /*clear: both;*/
+            width: 2455px; /*1020*/
+        }
+        .item {
+            width: 200px;
+            height: 100px;
+            background-color: #ebebeb;
+            float: left;
+            margin-right: 5px;
+            position: relative;
+            left: 0;
+            transition: left 0.25s linear;
+        }
+        .item:after {
+            content: '';
+            clear: both;
+            display: table-cell;
+        }
+        .item:last-child {
+            margin-right: 0;
+        }
+        .item:nth-child(even) {
+            background-color: #838383;
+        }
+        .prev, .next {
+            border:1px solid black;
+            margin: 10px;
+            display: inline-block;
+            padding: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="holder">
+    <div class="inner_holder">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div> <!-- -->
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item">LAST ONE</div>
+    </div>
+</div>
+
+<div class="prev">prev</div>
+<div class="next">next</div>
+
+
+<script>
+    let prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        item = document.querySelectorAll('.item');
+
+    let left = 0,
+        totalValue = 0;
+
+    for(let q = 0; q < item.length; q++) {
+        let newQ = +((window.getComputedStyle(item[q]).marginRight).replace('px', ''));
+        totalValue += newQ;
+    }
+    console.log(totalValue);
+    for(let i = 0; i < item.length; i++) {
+        let totalWidth = 0,
+            totalWidthMargin = 0;
+        totalWidth = (item[i].offsetWidth /** item.length*/);
+        console.log(totalWidth);
+        totalValue += totalWidth;
+    }
+
+    next.addEventListener('click', function () {
+        console.log('total value - is: ' + -(totalValue));
+        if(left >= -(totalValue - ((totalValue / item.length) *3))) {
+        left -= 205;
+        for(let i = 0; i < item.length; i++) {
+            item[i].style.left = left + 'px';
+        }
+        }
+        //console.log(totalValue);
+        console.log('left is: ' + left);
+    });
+
+    prev.addEventListener('click', function () {
+        if(left !== 0) {
+            left += 205;
+            for(let i = 0; i < item.length; i++) {
+                item[i].style.left = left + 'px';
+                console.log('Left is: ' + left);
+            }
+        }
+    });
+</script>
+</body>
+</html>
